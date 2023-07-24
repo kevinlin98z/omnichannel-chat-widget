@@ -63,6 +63,8 @@ export enum LiveChatWidgetActionType {
     */
     SET_PRE_CHAT_SURVEY_RESPONSE,
 
+    SET_NOTIFICATION_TYPE,
+
     /*
         Parameters:
         string: The custom context in json format
@@ -75,6 +77,8 @@ export enum LiveChatWidgetActionType {
         - false: when clicked on Confirm button on confirmation pane
     */
     SET_SHOW_CONFIRMATION,
+
+    SET_SHOW_NOTIFICATION,
 
     /*
         Parameters:

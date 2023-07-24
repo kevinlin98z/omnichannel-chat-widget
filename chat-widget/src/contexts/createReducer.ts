@@ -94,6 +94,15 @@ export const createReducer = () => {
                     }
                 };
 
+            case LiveChatWidgetActionType.SET_NOTIFICATION_TYPE:
+                return {
+                    ...state,
+                    domainStates: {
+                        ...state.domainStates,
+                        notificationType: action.payload as string
+                    }
+                };
+
             case LiveChatWidgetActionType.SET_CUSTOM_CONTEXT:
                 return {
                     ...state,
@@ -119,6 +128,15 @@ export const createReducer = () => {
                     uiStates: {
                         ...state.uiStates,
                         showConfirmationPane: action.payload as boolean
+                    }
+                };
+
+            case LiveChatWidgetActionType.SET_SHOW_NOTIFICATION:
+                return {
+                    ...state,
+                    uiStates: {
+                        ...state.uiStates,
+                        showNotificationPane: action.payload as boolean
                     }
                 };
 

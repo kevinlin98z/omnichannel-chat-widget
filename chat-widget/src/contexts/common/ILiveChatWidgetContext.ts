@@ -29,6 +29,7 @@ export interface ILiveChatWidgetContext {
         transcriptRequestId: string; //Contains request id for downloading transcript
         confirmationPaneConfirmedOptionClicked: boolean; //shows if confirmation pane already displayed
         confirmationState: ConfirmationState;
+        notificationType: string; // type of notification for notification pane switch
     };
     appStates: {
         conversationState: ConversationState; // The state that the conversation is currently in
@@ -61,5 +62,6 @@ export interface ILiveChatWidgetContext {
         disableSelfVideo: boolean; // true when self video is off
         isIncomingCall: boolean; //incoming/currentcall
         focusChatButton: boolean; // true after the first rendering for chat button
+        showNotificationPane: boolean;
     };
 }

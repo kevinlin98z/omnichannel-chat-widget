@@ -58,6 +58,10 @@ export const shouldShowPreChatSurveyPane = (state: ILiveChatWidgetContext) => {
     return (state.appStates.conversationState === ConversationState.Prechat);
 };
 
+export const shouldShowNotificationPane = (state: ILiveChatWidgetContext) => {
+    return state.uiStates.showNotificationPane;
+};
+
 export const shouldShowConfirmationPane = (state: ILiveChatWidgetContext) => {
     return state.uiStates.showConfirmationPane;
 };

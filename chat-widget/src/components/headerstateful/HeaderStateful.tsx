@@ -29,7 +29,23 @@ export const HeaderStateful = (props: IHeaderStatefulParams) => {
     // For some reason state object is not getting updated values in this component
     const localConfirmationPaneState = useRef(state?.domainStates?.confirmationState);
 
+    const CustomButton = () => {
+        const onClick = () => {
+            // alert("Clicked custom button!");
+            dispatch({ type: LiveChatWidgetActionType.SET_SHOW_NOTIFICATION, payload: true });
+            dispatch({ type: LiveChatWidgetActionType.SET_NOTIFICATION_TYPE, payload: "header" });
+        };
+        return (
+            <button onClick={onClick}>Custom Button H</button>
+        );
+    };
+
     const controlProps: IHeaderControlProps = {
+        rightGroup: {
+            children: [
+                <CustomButton key={1}></CustomButton>
+            ]
+        },
         id: "oc-lcw-header",
         dir: state.domainStates.globalDir,
         onMinimizeClick: () => {

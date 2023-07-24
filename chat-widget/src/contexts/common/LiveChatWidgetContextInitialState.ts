@@ -36,7 +36,8 @@ export const getLiveChatWidgetContextInitialState = (props: ILiveChatWidgetProps
             initialChatSdkRequestId: "",
             transcriptRequestId: "",
             confirmationPaneConfirmedOptionClicked: false,
-            confirmationState: ConfirmationState.NotSet
+            confirmationState: ConfirmationState.NotSet,
+            notificationType: "none",
         },
         appStates: {
             conversationState: ConversationState.Closed,
@@ -68,7 +69,8 @@ export const getLiveChatWidgetContextInitialState = (props: ILiveChatWidgetProps
             disableVideoCall: true,
             disableRemoteVideo: true,
             disableSelfVideo: true,
-            focusChatButton: false
+            focusChatButton: false,
+            showNotificationPane: false,
         }
     };
 

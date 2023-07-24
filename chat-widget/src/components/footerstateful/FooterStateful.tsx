@@ -25,7 +25,24 @@ export const FooterStateful = (props: any) => {
     const { footerProps, downloadTranscriptProps, audioNotificationProps, hideFooterDisplay } = props;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const chatSDK: any = useChatSDKStore();
+
+    const CustomButton = () => {
+        const onClick = () => {
+            // alert("Clicked custom button!");
+            dispatch({ type: LiveChatWidgetActionType.SET_SHOW_NOTIFICATION, payload: false });
+            dispatch({ type: LiveChatWidgetActionType.SET_NOTIFICATION_TYPE, payload: "footer" });
+        };
+        return (
+            <button onClick={onClick}>Custom Button F</button>
+        );
+    };
+
     const controlProps: IFooterControlProps = {
+        rightGroup: {
+            children: [
+                <CustomButton key={2}></CustomButton>
+            ]
+        },
         id: "oc-lcw-footer",
         dir: state.domainStates.globalDir,
         onDownloadTranscriptClick: async () => {
