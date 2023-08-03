@@ -14,6 +14,9 @@ import useChatAdapterStore from "../../hooks/useChatAdapterStore";
 import useChatContextStore from "../../hooks/useChatContextStore";
 import { ConfirmationState } from "../../common/Constants";
 import DraggableEventEmitter from "../draggable/DraggableEventEmitter";
+import { NotificationHandler } from "../webchatcontainerstateful/webchatcontroller/notification/NotificationHandler";
+import { NotificationScenarios } from "../webchatcontainerstateful/webchatcontroller/enums/NotificationScenarios";
+import { defaultMiddlewareLocalizedTexts } from "../webchatcontainerstateful/common/defaultProps/defaultMiddlewareLocalizedTexts";
 
 export const HeaderStateful = (props: IHeaderStatefulParams) => {
 
@@ -31,9 +34,10 @@ export const HeaderStateful = (props: IHeaderStatefulParams) => {
 
     const CustomButton = () => {
         const onClick = () => {
-            // alert("Clicked custom button!");
-            dispatch({ type: LiveChatWidgetActionType.SET_SHOW_NOTIFICATION, payload: true });
-            dispatch({ type: LiveChatWidgetActionType.SET_NOTIFICATION_TYPE, payload: "header" });
+            NotificationHandler.notifyWarning(NotificationScenarios.ChatDisconnect,
+                defaultMiddlewareLocalizedTexts.MIDDLEWARE_BANNER_CHAT_DISCONNECT as string);
+            // dispatch({ type: LiveChatWidgetActionType.SET_SHOW_NOTIFICATION, payload: true });
+            // dispatch({ type: LiveChatWidgetActionType.SET_NOTIFICATION_TYPE, payload: "header" });
         };
         return (
             <button onClick={onClick}>Custom Button H</button>

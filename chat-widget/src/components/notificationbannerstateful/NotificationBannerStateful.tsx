@@ -16,53 +16,66 @@ import { NotificationBanner } from "@microsoft/omnichannel-chat-components";
 // import useChatContextStore from "../../hooks/useChatContextStore";
 // import useWindowDimensions from "../../hooks/useWindowDimensions";
 
+import { hooks } from "botframework-webchat";
+import { useCallback } from "react";
+import { INotificationBannerStatefulProps } from "./interfaces/INotificationBannerStatefulProps";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const NotificationBannerStateful = (props: any) => {
-    const { notificationType } = props;
-    console.log("ADAD notificationType", notificationType);
-    
-    // const [state, ]: [ILiveChatWidgetContext, Dispatch<ILiveChatWidgetAction>] = useChatContextStore();
-    // const { loadingPaneProps, startChatErrorPaneProps } = props;
+export const NotificationBannerStateful = (props: INotificationBannerStatefulProps) => {
+    // const { notificationType } = props;
+    console.log("ADAD notificationBannerProps before", props.notificationBannerProps);
+    console.log("ADAD notificationType", props.notificationScenarioType);
 
-    // const generalLoadingPaneStyleProps: IStyle = Object.assign({}, defaultGeneralLoadingPaneStyleProps, loadingPaneProps?.styleProps?.generalStyleProps);
-    // const loadingPaneStyleProps: ILoadingPaneStyleProps = {
-    //     ...loadingPaneProps?.styleProps,
-    //     generalStyleProps: generalLoadingPaneStyleProps
-    // };
+    const {useDismissNotification} = hooks;
+    const dismissNotification = useDismissNotification();
+    const handleDismissNotification = useCallback(() => dismissNotification(props.notificationScenarioType ?? ""), []); 
 
-    // const errorUIStyleProps: ILoadingPaneStyleProps = {
-    //     ...errorUILoadingPaneStyleProps
-    // };
+    const notificationBannerProps = {
+        ...props.notificationBannerProps,
+        onDismiss: handleDismissNotification,
+    };
 
-    // const loadingPaneControlProps: ILoadingPaneControlProps = {
-    //     id: "oc-lcw-loading-pane",
-    //     dir: state.domainStates.globalDir,
-    //     ...loadingPaneProps?.controlProps
-    // };
-
-    // const errorUIControlProps: ILoadingPaneControlProps = {
-    //     ...loadingPaneProps?.controlProps,
-    //     id: "oc-lcw-alert-pane",
-    //     dir: state.domainStates.globalDir,
-    //     titleText: startChatErrorPaneProps?.controlProps?.titleText ?? "We are unable to load chat at this time.",
-    //     subtitleText: startChatErrorPaneProps?.controlProps?.subtitleText ?? "Please try again later.",
-    //     hideSpinner: true,
-    //     hideSpinnerText: true
-    // };
-    
-    // const { height, width } = useWindowDimensions();
-
-    // // Move focus to the first button
-    // useEffect(() => {
-    //     const firstElement: HTMLElement[] | null = findAllFocusableElement(`#${state.domainStates.widgetElementId}`);
-    //     if (firstElement && firstElement[0]) {
-    //         firstElement[0].focus();
+    // const controlProps: INotificationControlProps = {
+    //     dismissButtonProps: {
+    //         onClick: handleDismissNotification
     //     }
-    //     TelemetryHelper.logLoadingEvent(LogLevel.INFO, { Event: TelemetryEvent.LoadingPaneLoaded, Description: "Loading pane loaded." });
-    // }, []);
-    
+    //     ...props?.controlProps
+    // };
+
+    // notificationBannerProps.chatDisconnectNotificationProps?.controlProps?.dismissButtonProps?.onClick = handleDismissNotification;
+
+    console.log("ADAD notificationBannerProps after", notificationBannerProps);
+
+    // // each NotificationBanner takes a type of notification
+    // const list = [1, 2, 3]; // list of notification types
+    // // dismissing a notification will remove the notification from the list, and re-render everything
+    // // the notification ID in webchat is actually a string
+    // const RenderComps = () => {
+    //     return <>{
+    //         // need div here if we want to do overlay
+    //         <div>{
+    //             list.map((num) => <NotificationBanner key={num} />)
+    //         }</div>
+    //     }</>;
+    // };
+
+    // banner needs a hook to dismiss (remove from list the exact id of the notification banner)
+
+    // return RenderComps();
+
+    // TODO: pass all default behaviors within the stateful!!!
+    // close button == "x" button for a notification
+
     return (
         <NotificationBanner
+            // notificationProps={props.notificationBannerProps?.chatDisconnectNotificationProps}
+            chatDisconnectNotificationProps={props.notificationBannerProps?.chatDisconnectNotificationProps}
+            // downloadTranscriptNotificationProps={}
+            // messageToLongNotificationProps={}
+            notificationScenarioType={props.notificationScenarioType}
+            onDismiss={handleDismissNotification}
+            // notificationBannerProps={notificationBannerProps}
+            // onCloseClick={handleDismissNotification}
             // componentOverrides={loadingPaneProps?.componentOverrides}
             // controlProps={state.appStates.startChatFailed ? errorUIControlProps : loadingPaneControlProps}
             // styleProps={state.appStates.startChatFailed ? errorUIStyleProps : loadingPaneStyleProps}

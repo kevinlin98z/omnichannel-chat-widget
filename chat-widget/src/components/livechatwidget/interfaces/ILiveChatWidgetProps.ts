@@ -24,6 +24,7 @@ import { IContextDataStore } from "../../../common/interfaces/IContextDataStore"
 import { IPostChatSurveyPaneStatefulProps } from "../../postchatsurveypanestateful/interfaces/IPostChatSurveyPaneStatefulProps";
 import { IScrollBarProps } from "./IScrollBarProps";
 import { IDraggableChatWidgetProps } from "./IDraggableChatWidgetProps";
+import { INotificationBannerProps } from "@microsoft/omnichannel-chat-components/lib/types/components/notificationbanner/interfaces/INotificationBannerProps";
 
 export interface ILiveChatWidgetProps {
     audioNotificationProps?: IAudioNotificationProps;
@@ -56,6 +57,7 @@ export interface ILiveChatWidgetProps {
     startChatErrorPaneProps?: IStartChatErrorPaneProps;
     styleProps?: ILiveChatWidgetStyleProps;
     telemetryConfig: ITelemetryConfig;
+    notificationBannerProps?: INotificationBannerProps;
     webChatContainerProps?: IWebChatContainerStatefulProps;
     liveChatContextFromCache?: ILiveChatWidgetContext;
     contextDataStore?: IContextDataStore;

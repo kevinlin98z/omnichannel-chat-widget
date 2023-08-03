@@ -1,15 +1,13 @@
-import { DefaultButton, IIconStyles, ILabelStyles, ISpinnerStyles, IStackStyles, Icon, Label, Spinner, Stack } from "@fluentui/react";
-
 import React from "react";
-import { INotificationBannerProps } from "./interfaces/INotificationBannerProps";
 
-function NotificationBanner(props: INotificationBannerProps) { // TODO add dismiss button here?
-    const titleStyles: ILabelStyles = {
-        root: Object.assign({}, props.chatDisconnectNotificationProps?.styleProps?.titleStyleProps)
-    };
+// import { hooks } from "botframework-webchat";
+// import { useCallback } from "react";
+import { NotificationScenarios } from "../../enums/NotificationScenarios";
+// import { NotificationLevel } from "../../enums/NotificationLevel";
+import NotificationBannerStateful from "../../../../notificationbannerstateful/NotificationBannerStateful";
+import { INotificationBannerProps } from "@microsoft/omnichannel-chat-components/lib/types/components/notificationbanner/interfaces/INotificationBannerProps";
 
-    // const { onCloseClick } = props;
-
+const createToastMiddleware = (notificationBannerProps: INotificationBannerProps | undefined) => {
     // const NotificationIcon = (level: string) => { // TODO: this will need to go under subcomponents (similar to header with minimize button)
     //     if (level === NotificationLevel.Error) {
     //         return <svg aria-label="Error" height="19" viewBox="0 0 19 19" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M9.375 0C10.2409 0 11.071 0.110677 11.8652 0.332031C12.666 0.553385 13.4147 0.869141 14.1113 1.2793C14.8079 1.68294 15.4395 2.17122 16.0059 2.74414C16.5788 3.31055 17.0671 3.94206 17.4707 4.63867C17.8809 5.33529 18.1966 6.08398 18.418 6.88477C18.6393 7.67904 18.75 8.50911 18.75 9.375C18.75 10.2409 18.6393 11.0742 18.418 11.875C18.1966 12.6693 17.8809 13.4147 17.4707 14.1113C17.0671 14.8079 16.5788 15.4427 16.0059 16.0156C15.4395 16.582 14.8079 17.0703 14.1113 17.4805C13.4147 17.8841 12.666 18.1966 11.8652 18.418C11.071 18.6393 10.2409 18.75 9.375 18.75C8.50911 18.75 7.67578 18.6393 6.875 18.418C6.08073 18.1966 5.33529 17.8841 4.63867 17.4805C3.94206 17.0703 3.30729 16.582 2.73438 16.0156C2.16797 15.4427 1.67969 14.8079 1.26953 14.1113C0.865885 13.4147 0.553385 12.6693 0.332031 11.875C0.110677 11.0742 0 10.2409 0 9.375C0 8.50911 0.110677 7.67904 0.332031 6.88477C0.553385 6.08398 0.865885 5.33529 1.26953 4.63867C1.67969 3.94206 2.16797 3.31055 2.73438 2.74414C3.30729 2.17122 3.94206 1.68294 4.63867 1.2793C5.33529 0.869141 6.08073 0.553385 6.875 0.332031C7.67578 0.110677 8.50911 0 9.375 0ZM9.375 17.5C10.1172 17.5 10.8333 17.4023 11.5234 17.207C12.2201 17.0117 12.8678 16.7383 13.4668 16.3867C14.0723 16.0352 14.6224 15.612 15.1172 15.1172C15.612 14.6224 16.0352 14.0755 16.3867 13.4766C16.7383 12.8711 17.0117 12.2233 17.207 11.5332C17.4023 10.8431 17.5 10.1237 17.5 9.375C17.5 8.63281 17.4023 7.91667 17.207 7.22656C17.0117 6.52995 16.7383 5.88216 16.3867 5.2832C16.0352 4.67773 15.612 4.1276 15.1172 3.63281C14.6224 3.13802 14.0723 2.71484 13.4668 2.36328C12.8678 2.01172 12.2201 1.73828 11.5234 1.54297C10.8333 1.34766 10.1172 1.25 9.375 1.25C8.6263 1.25 7.9069 1.34766 7.2168 1.54297C6.52669 1.73828 5.87891 2.01172 5.27344 2.36328C4.67448 2.71484 4.1276 3.13802 3.63281 3.63281C3.13802 4.1276 2.71484 4.67773 2.36328 5.2832C2.01172 5.88216 1.73828 6.52995 1.54297 7.22656C1.34766 7.91667 1.25 8.63281 1.25 9.375C1.25 10.1172 1.34766 10.8366 1.54297 11.5332C1.73828 12.2233 2.01172 12.8711 2.36328 13.4766C2.71484 14.0755 3.13802 14.6224 3.63281 15.1172C4.1276 15.612 4.67448 16.0352 5.27344 16.3867C5.87891 16.7383 6.52669 17.0117 7.2168 17.207C7.9069 17.4023 8.6263 17.5 9.375 17.5ZM8.75 5H10V11.25H8.75V5ZM8.75 12.5H10V13.75H8.75V12.5Z"></path></svg>;
@@ -30,33 +28,96 @@ function NotificationBanner(props: INotificationBannerProps) { // TODO add dismi
     //     return <svg aria-label="Information" height="19" viewBox="0 0 19 19" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M9.375 0C10.2409 0 11.071 0.110677 11.8652 0.332031C12.666 0.553385 13.4147 0.869141 14.1113 1.2793C14.8079 1.68294 15.4395 2.17122 16.0059 2.74414C16.5788 3.31055 17.0671 3.94206 17.4707 4.63867C17.8809 5.33529 18.1966 6.08398 18.418 6.88477C18.6393 7.67904 18.75 8.50911 18.75 9.375C18.75 10.2409 18.6393 11.0742 18.418 11.875C18.1966 12.6693 17.8809 13.4147 17.4707 14.1113C17.0671 14.8079 16.5788 15.4427 16.0059 16.0156C15.4395 16.582 14.8079 17.0703 14.1113 17.4805C13.4147 17.8841 12.666 18.1966 11.8652 18.418C11.071 18.6393 10.2409 18.75 9.375 18.75C8.50911 18.75 7.67578 18.6393 6.875 18.418C6.08073 18.1966 5.33529 17.8841 4.63867 17.4805C3.94206 17.0703 3.30729 16.582 2.73438 16.0156C2.16797 15.4427 1.67969 14.8079 1.26953 14.1113C0.865885 13.4147 0.553385 12.6693 0.332031 11.875C0.110677 11.0742 0 10.2409 0 9.375C0 8.50911 0.110677 7.67904 0.332031 6.88477C0.553385 6.08398 0.865885 5.33529 1.26953 4.63867C1.67969 3.94206 2.16797 3.31055 2.73438 2.74414C3.30729 2.17122 3.94206 1.68294 4.63867 1.2793C5.33529 0.869141 6.08073 0.553385 6.875 0.332031C7.67578 0.110677 8.50911 0 9.375 0ZM9.375 17.5C10.1172 17.5 10.8333 17.4023 11.5234 17.207C12.2201 17.0117 12.8678 16.7383 13.4668 16.3867C14.0723 16.0352 14.6224 15.612 15.1172 15.1172C15.612 14.6224 16.0352 14.0755 16.3867 13.4766C16.7383 12.8711 17.0117 12.2233 17.207 11.5332C17.4023 10.8431 17.5 10.1237 17.5 9.375C17.5 8.63281 17.4023 7.91667 17.207 7.22656C17.0117 6.52995 16.7383 5.88216 16.3867 5.2832C16.0352 4.67773 15.612 4.1276 15.1172 3.63281C14.6224 3.13802 14.0723 2.71484 13.4668 2.36328C12.8678 2.01172 12.2201 1.73828 11.5234 1.54297C10.8333 1.34766 10.1172 1.25 9.375 1.25C8.6263 1.25 7.9069 1.34766 7.2168 1.54297C6.52669 1.73828 5.87891 2.01172 5.27344 2.36328C4.67448 2.71484 4.1276 3.13802 3.63281 3.63281C3.13802 4.1276 2.71484 4.67773 2.36328 5.2832C2.01172 5.88216 1.73828 6.52995 1.54297 7.22656C1.34766 7.91667 1.25 8.63281 1.25 9.375C1.25 10.1172 1.34766 10.8366 1.54297 11.5332C1.73828 12.2233 2.01172 12.8711 2.36328 13.4766C2.71484 14.0755 3.13802 14.6224 3.63281 15.1172C4.1276 15.612 4.67448 16.0352 5.27344 16.3867C5.87891 16.7383 6.52669 17.0117 7.2168 17.207C7.9069 17.4023 8.6263 17.5 9.375 17.5ZM8.75 5H10V11.25H8.75V5ZM8.75 12.5H10V13.75H8.75V12.5Z"></path></svg>;
     // };
 
-    return (
-        <>
-            <Stack
-                id={"nb-container-id"}
-                tabIndex={-1}
-                // styles={containerStyles}
-                role={"presentation"}
-                dir={"ltr"}>
-                <Label
-                    className={"nb-title"}
-                    styles={titleStyles}
-                    tabIndex={-1}
-                    id={"nb-title-id"}>
-                    {"Sample notification title"}
-                </Label>
-                <DefaultButton
-                    className={"nb-close-button"}
-                    // styles={cancelButtonStyles}
-                    text={"CLOSE"}
-                    onClick={props.chatDisconnectNotificationProps?.controlProps?.dismissButtonProps?.onClick}
-                    // onClick={props.onDismiss}
-                    id={"nb-close-button-id"}
-                    // ariaLabel={props.controlProps?.cancelButtonAriaLabel || defaultConfirmationPaneControlProps.cancelButtonAriaLabel}
-                />
-            </Stack>
-        </>
-    );
-}
+    // const DismissIcon = () => {
+    //     return <svg height="14" viewBox="0 0 14 14" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M7.71094 7L13.1016 12.3984L12.3984 13.1016L7 7.71094L1.60156 13.1016L0.898438 12.3984L6.28906 7L0.898438 1.60156L1.60156 0.898438L7 6.28906L12.3984 0.898438L13.1016 1.60156L7.71094 7Z"></path></svg>;
+    // };
+    
+    // const CustomAttachmentNotification = () => {
+    //     const {useDismissNotification} = hooks;
+    //     const dismissNotification = useDismissNotification();
+    //     const handleDismissNotification = useCallback(() => dismissNotification("attachment"), []); // TODO: somehow this dismiss notification hook needs to be passed into the NotificationPane component itself
 
-export default NotificationBanner;
+    //     return (
+    //         <div className="webchat-toast">
+    //             <div className="notification-button">
+    //                 <button onClick={handleDismissNotification}>
+    //                     Dismiss
+    //                 </button>
+    //             </div>
+    //             <div className="attachment-extra-content">
+    //                 <div>
+    //                     CUSTOM ATTACHMENT MESSAGE
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     );
+    // };
+
+    // const CustomChatDisconnectNotification = () => { // TODO: somehow this needs to be abstracted to it's own custom toast component? that can be overriden?
+    //     const {useDismissNotification} = hooks;
+    //     const dismissNotification = useDismissNotification();
+    //     const handleDismissNotification = useCallback(() => dismissNotification(NotificationScenarios.ChatDisconnect), []);
+    //     const onCloseButtonClick = useCallback(() => {
+    //         console.log("ADAD close click");
+    //     }, []);
+
+    //     const onStartNewChatButtonClick = useCallback(() => {
+    //         console.log("ADAD start click");
+    //     }, []);
+
+    //     return (
+    //         <div className={`oclcw-webchat__toast--${NotificationLevel.Info}`} role="dialog">
+    //             <div className="oclcw_webchat__toast__textBox">
+    //                 <div className="oclcw_webchat__toast__iconBox">
+    //                     <svg aria-label="Information" height="19" viewBox="0 0 19 19" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M9.375 0C10.2409 0 11.071 0.110677 11.8652 0.332031C12.666 0.553385 13.4147 0.869141 14.1113 1.2793C14.8079 1.68294 15.4395 2.17122 16.0059 2.74414C16.5788 3.31055 17.0671 3.94206 17.4707 4.63867C17.8809 5.33529 18.1966 6.08398 18.418 6.88477C18.6393 7.67904 18.75 8.50911 18.75 9.375C18.75 10.2409 18.6393 11.0742 18.418 11.875C18.1966 12.6693 17.8809 13.4147 17.4707 14.1113C17.0671 14.8079 16.5788 15.4427 16.0059 16.0156C15.4395 16.582 14.8079 17.0703 14.1113 17.4805C13.4147 17.8841 12.666 18.1966 11.8652 18.418C11.071 18.6393 10.2409 18.75 9.375 18.75C8.50911 18.75 7.67578 18.6393 6.875 18.418C6.08073 18.1966 5.33529 17.8841 4.63867 17.4805C3.94206 17.0703 3.30729 16.582 2.73438 16.0156C2.16797 15.4427 1.67969 14.8079 1.26953 14.1113C0.865885 13.4147 0.553385 12.6693 0.332031 11.875C0.110677 11.0742 0 10.2409 0 9.375C0 8.50911 0.110677 7.67904 0.332031 6.88477C0.553385 6.08398 0.865885 5.33529 1.26953 4.63867C1.67969 3.94206 2.16797 3.31055 2.73438 2.74414C3.30729 2.17122 3.94206 1.68294 4.63867 1.2793C5.33529 0.869141 6.08073 0.553385 6.875 0.332031C7.67578 0.110677 8.50911 0 9.375 0ZM9.375 17.5C10.1172 17.5 10.8333 17.4023 11.5234 17.207C12.2201 17.0117 12.8678 16.7383 13.4668 16.3867C14.0723 16.0352 14.6224 15.612 15.1172 15.1172C15.612 14.6224 16.0352 14.0755 16.3867 13.4766C16.7383 12.8711 17.0117 12.2233 17.207 11.5332C17.4023 10.8431 17.5 10.1237 17.5 9.375C17.5 8.63281 17.4023 7.91667 17.207 7.22656C17.0117 6.52995 16.7383 5.88216 16.3867 5.2832C16.0352 4.67773 15.612 4.1276 15.1172 3.63281C14.6224 3.13802 14.0723 2.71484 13.4668 2.36328C12.8678 2.01172 12.2201 1.73828 11.5234 1.54297C10.8333 1.34766 10.1172 1.25 9.375 1.25C8.6263 1.25 7.9069 1.34766 7.2168 1.54297C6.52669 1.73828 5.87891 2.01172 5.27344 2.36328C4.67448 2.71484 4.1276 3.13802 3.63281 3.63281C3.13802 4.1276 2.71484 4.67773 2.36328 5.2832C2.01172 5.88216 1.73828 6.52995 1.54297 7.22656C1.34766 7.91667 1.25 8.63281 1.25 9.375C1.25 10.1172 1.34766 10.8366 1.54297 11.5332C1.73828 12.2233 2.01172 12.8711 2.36328 13.4766C2.71484 14.0755 3.13802 14.6224 3.63281 15.1172C4.1276 15.612 4.67448 16.0352 5.27344 16.3867C5.87891 16.7383 6.52669 17.0117 7.2168 17.207C7.9069 17.4023 8.6263 17.5 9.375 17.5ZM8.75 5H10V11.25H8.75V5ZM8.75 12.5H10V13.75H8.75V12.5Z"></path></svg>
+    //                 </div>
+    //                 <div className="oclcw_webchat__toast__text">
+    //                     Your chat has been disconnected. Please start a new chat.
+    //                 </div>
+    //                 <button className="oclcw_webchat__toast__dismissButton">
+    //                     <div
+    //                         className="oclcw_webchat__toast__dismissButtonFocus"
+    //                         onClick={handleDismissNotification}>
+    //                         <DismissIcon />
+    //                     </div>
+    //                 </button>
+    //             </div>
+    //             <div className="oclcw_webchat__toast__actionBar">
+    //                 <button
+    //                     className="oclcw_webchat__toast__actionButton"
+    //                     onClick={onCloseButtonClick}>
+    //                     Close Chat
+    //                 </button>
+    //                 <button
+    //                     className="oclcw_webchat__toast__actionButton"
+    //                     onClick={onStartNewChatButtonClick}>
+    //                     Start New Chat
+    //                 </button>
+    //             </div>
+    //         </div>
+    //     );
+    // };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, react/display-name
+    const toastMiddleware = () => (next: any) => (card: any) => {
+        console.log("ADAD toastMiddleware");
+        const {notification} = card;
+        console.log(notification);
+
+        if (notification.id === NotificationScenarios.AttachmentError) {
+            // return <CustomAttachmentNotification/>;
+            return <NotificationBannerStateful notificationBannerProps={notificationBannerProps} notificationScenarioType={NotificationScenarios.AttachmentError} />;
+        }
+
+        if (notification.id === NotificationScenarios.ChatDisconnect) {
+            return <NotificationBannerStateful notificationBannerProps={notificationBannerProps} notificationScenarioType={NotificationScenarios.ChatDisconnect} />;
+            // return <CustomChatDisconnectNotification/>;
+        }
+
+        return next(card);
+    };
+
+    return toastMiddleware;
+};
+
+export default createToastMiddleware;
