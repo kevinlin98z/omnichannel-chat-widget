@@ -4,7 +4,7 @@ import { ChatReconnectIconBase64, CloseChatButtonIconBase64, ModernChatIconBase6
 
 import { ILiveChatWidgetProps } from "@microsoft/omnichannel-chat-widget/lib/types/components/livechatwidget/interfaces/ILiveChatWidgetProps";//
 import { ITelemetryConfig } from "@microsoft/omnichannel-chat-widget/lib/types/common/telemetry/interfaces/ITelemetryConfig";
-import { NewMessageNotificationSoundBase64 } from "../../../../src/assets/Audios";
+import { NewMessageNotificationSoundBase64 } from "../../src/common/assets";
 import { OmnichannelChatSDK } from "@microsoft/omnichannel-chat-sdk";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

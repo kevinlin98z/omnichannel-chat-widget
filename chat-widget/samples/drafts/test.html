@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Sample App</title>
+  <!-- <script type="text/javascript" src="Common/assets.js"></script> -->
+</head>
+
+<body>
+  <script>
+    // function lcw() {
+    //   return {
+    //     styleProps: { // example: adjusting sizing and placement of the chat widget
+    //       generalStyles: {
+    //         width: "50%",
+    //         height: "800px",
+    //         bottom: "30px",
+    //         right: "30px"
+    //       }
+    //     },
+    //     chatButtonProps: { // example: chat button customization overrides
+    //       controlProps: {
+    //         titleText: "",
+    //         subtitleText: "",
+    //         hideChatTextContainer: true,
+    //       },
+    //       styleProps: {
+    //         generalStyleProps: {
+    //           height: "56px",
+    //           width: "56px",
+    //           borderRadius: "50%"
+    //         },
+    //         iconStyleProps: {
+    //           backgroundColor: "#c5ecc5",
+    //           // backgroundImage: `url(${CoffeeChatIconBase64})`,
+    //         }
+    //       },
+    //     },
+    //     headerProps: { // example: default header is being overriden with a new background color style
+    //       styleProps: {
+    //         generalStyleProps: {
+    //           background: "#c5ecc5"
+    //         }
+    //       }
+    //     },
+    //     loadingPaneProps: { // example: loading pane customization overrides
+    //       styleProps: {
+    //         generalStyleProps: {
+    //           backgroundColor: "#c5ecc5"
+    //         }
+    //       },
+    //       titleStyleProps: {
+    //         fontFamily: "Garamond"
+    //       },
+    //       subtitleStyleProps: {
+    //         fontFamily: "Garamond"
+    //       },
+    //       spinnerTextStyleProps: {
+    //         fontFamily: "Garamond"
+    //       }
+    //     },
+    //     webChatContainerProps: { // example: web chat customization overrides
+    //       webChatStyles: {
+    //         bubbleBackground: "white",
+    //         bubbleFromUserBackground: "#c5ecc5",
+    //         bubbleFromUserTextColor: "#051005",
+    //         bubbleTextColor: "#051005",
+    //         primaryFont: "Garamond"
+    //       },
+    //       botMagicCode: {
+    //         disabled: false,
+    //         fwdUrl: 'http://localhost:8000/sample/MagicCodeForwarder.html'
+    //       },
+    //       disableMarkdownMessageFormatting: true, // setting the default to true for a known issue with markdown
+    //     },
+    //   }
+    // }
+
+    // browser compatibility
+    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+    var eventer = window[eventMethod];
+    var messageEvent = eventMethod === "attachEvent" ? "onmessage" : "message";
+
+    eventer(messageEvent, function (e) {
+      try {
+        if (e.data.key) {
+          localStorage.setItem(e.data.key, e.data.data);
+        }
+      }
+      catch (ex) {
+        console.log(ex);
+      }
+    });
+
+    // Raise event after data found in localStorage
+    if (localStorage.getItem("LcwChatWidgetState")) {
+      var evt = new CustomEvent("lcw:onWidgetStateUpdated", {
+        detail: {
+          key: "LcwChatWidgetState",
+          data: widgetData
+        }
+      });
+      window.dispatchEvent(evt);
+    }
+  </script>
+  <div id="oc-lcw-container"></div>
+  <!-- <div id="root"></div> -->
+  <script src="./bundle.js"></script>
+  <!-- <script id="oc-lcw-script" src="../../dist/out.js" data-customization-callback="lcw" data-org-id="1ced8f4f-9f9f-4d24-9939-c2f24d6ea8f8" data-app-id="3aa9ec9b-25aa-4f4f-8001-4759f4e2a260"
+    data-org-url="https://1ced8f4f9f9f4d249939c2f24d6ea8f8-crm.omnichannelengagementhub.com"></script> -->
+</body>
+
+</html>

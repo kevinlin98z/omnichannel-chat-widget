@@ -40,14 +40,16 @@ const main = async () => {
         liveChatWidgetProps = config;
         liveChatWidgetProps = {
             ...liveChatWidgetProps,
-            chatSDK: chatSDK,
-            chatConfig: chatConfig,
+            chatSDK: chatSDK, // mandatory
+            chatConfig: chatConfig, // mandatory
             telemetryConfig: {
                 chatWidgetVersion: chatWidgetVersion,
                 chatComponentVersion: chatComponentVersion,
                 OCChatSDKVersion: chatSdkVersion
             }
         };
+
+        console.log("ADAD liveChatWidgetProps", liveChatWidgetProps);
 
         ReactDOM.render(
             <LiveChatWidget {...liveChatWidgetProps} />,
