@@ -29,8 +29,8 @@ export const FooterStateful = (props: any) => {
     const CustomButton = () => {
         const onClick = () => {
             // alert("Clicked custom button!");
-            dispatch({ type: LiveChatWidgetActionType.SET_SHOW_NOTIFICATION, payload: false });
-            dispatch({ type: LiveChatWidgetActionType.SET_NOTIFICATION_TYPE, payload: "footer" });
+            dispatch({ type: LiveChatWidgetActionType.SET_SHOW_NOTIFICATION, payload: true });
+            // dispatch({ type: LiveChatWidgetActionType.SET_NOTIFICATION_TYPE, payload: "footer" });
         };
         return (
             <button onClick={onClick}>Custom Button F</button>

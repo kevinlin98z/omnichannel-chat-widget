@@ -143,6 +143,9 @@ const initStartChat = async (chatSDK: any, dispatch: Dispatch<ILiveChatWidgetAct
         const newAdapter = await createAdapter(chatSDK);
         setAdapter(newAdapter);
 
+        // console.log("ADAD throwing manual error");
+        // throw new Error();
+
         const chatToken = await chatSDK.getChatToken();
         dispatch({ type: LiveChatWidgetActionType.SET_CHAT_TOKEN, payload: chatToken });
         newAdapter?.activity$?.subscribe(createOnNewAdapterActivityHandler(chatToken?.chatId, chatToken?.visitorId));
@@ -212,7 +215,11 @@ const initStartChat = async (chatSDK: any, dispatch: Dispatch<ILiveChatWidgetAct
             });
         }
         // Show the loading pane in other cases for failure, this will help for both hideStartChatButton case
-        dispatch({ type: LiveChatWidgetActionType.SET_CONVERSATION_STATE, payload: ConversationState.Loading });
+        dispatch({ type: LiveChatWidgetActionType.SET_SHOW_NOTIFICATION, payload: true });
+        // TODO: may need to add a new conversationState == StartChatError!
+        // similar to PostChatLoadingPaneStateful, have StartChatErrorPaneStateful which is composed of NotificationPane component?
+        // or composed of LoadingPane component?
+        // dispatch({ type: LiveChatWidgetActionType.SET_CONVERSATION_STATE, payload: ConversationState.Loading });
 
         // If sessionInit was successful but LCW startchat failed due to some reason e.g adapter didn't load
         // we need to directly endChat to avoid leaving ghost chats in OC, not disturbing any other UI state 

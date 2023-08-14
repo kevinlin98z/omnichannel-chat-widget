@@ -711,6 +711,19 @@ export const dummyDefaultProps: ILiveChatWidgetProps = {
         bannerMessageOnError: "Email transcript to <email> failed.",
         attachmentMessage: "The following attachment was uploaded during the conversation:"
     },
+    // notificationPaneProps: {
+    //     chatDisconnectNotificationPaneProps: {
+    //         componentOverrides,
+    //         controlProps,
+    //         styleProps,
+    //     },
+    //     startChatErrorNotificationPaneProps: {
+    //         componentOverrides,
+    //         controlProps,
+    //         styleProps,
+    //     },
+    //     // remaining notification scenarios to be included
+    // },
     footerProps: {
         componentOverrides: {
             DownloadTranscriptButton: undefined,

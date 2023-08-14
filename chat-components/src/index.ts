@@ -16,7 +16,7 @@ export { default as LoadingPane } from "./components/loadingpane/LoadingPane";
 
 export { default as OutOfOfficeHoursPane } from "./components/outofofficehourspane/OOOHPane";
 
-export { default as NotificationBanner } from "./components/notificationbanner/NotificationBanner";
+export { default as NotificationPane } from "./components/notificationpane/NotificationPane";
 
 export { default as PreChatSurveyPane } from "./components/prechatsurveypane/PreChatSurveyPane";
 

@@ -27,6 +27,7 @@ import {
     shouldShowEmailTranscriptPane,
     shouldShowHeader,
     shouldShowLoadingPane,
+    shouldShowNotificationPane,
     shouldShowOutOfOfficeHoursPane,
     shouldShowPostChatLoadingPane,
     shouldShowPostChatSurveyPane,
@@ -82,7 +83,8 @@ import { startProactiveChat } from "../common/startProactiveChat";
 import useChatAdapterStore from "../../../hooks/useChatAdapterStore";
 import useChatContextStore from "../../../hooks/useChatContextStore";
 import useChatSDKStore from "../../../hooks/useChatSDKStore";
-// import NotificationBannerStateful from "../../notificationbannerstateful/NotificationBannerStateful";
+import NotificationBannerStateful from "../../notificationbannerstateful/NotificationBannerStateful";
+import { NotificationScenarios } from "../../webchatcontainerstateful/webchatcontroller/enums/NotificationScenarios";
 
 export const LiveChatWidgetStateful = (props: ILiveChatWidgetProps) => {
     const [state, dispatch]: [ILiveChatWidgetContext, Dispatch<ILiveChatWidgetAction>] = useChatContextStore();
@@ -632,7 +634,7 @@ export const LiveChatWidgetStateful = (props: ILiveChatWidgetProps) => {
 
                         {!livechatProps.controlProps?.hideLoadingPane && shouldShowLoadingPane(state) && (decodeComponentString(livechatProps.componentOverrides?.loadingPane) || <LoadingPaneStateful loadingPaneProps={livechatProps.loadingPaneProps} startChatErrorPaneProps={livechatProps.startChatErrorPaneProps} />)}
 
-                        {/* {shouldShowNotificationPane(state) && <NotificationBannerStateful notificationType={state.domainStates.notificationType} />} */}
+                        {/* {shouldShowNotificationPane(state) && <NotificationBannerStateful notificationBannerProps={livechatProps.notificationBannerProps} notificationScenarioType={NotificationScenarios.ChatDisconnect} />} */}
 
                         {!livechatProps.controlProps?.hideOutOfOfficeHoursPane && shouldShowOutOfOfficeHoursPane(state) && (decodeComponentString(livechatProps.componentOverrides?.outOfOfficeHoursPane) || <OutOfOfficeHoursPaneStateful {...livechatProps.outOfOfficeHoursPaneProps} />)}
 
