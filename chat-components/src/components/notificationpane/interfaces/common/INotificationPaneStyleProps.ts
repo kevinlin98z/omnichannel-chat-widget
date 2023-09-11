@@ -3,13 +3,14 @@ import { IStyle } from "@fluentui/react";
 /**
  * This interface will have the common styles properties and is inherited by each scenarios.
  */
-export interface INotificationStyleProps {
+export interface INotificationPaneStyleProps {
     generalStyleProps?: IStyle;
     titleStyleProps?: IStyle;
     subtitleStyleProps?: IStyle;
     dismissButtonStyleProps?: IStyle;
-    dismissButtonHoveredStyleProps?: IStyle;
+    dismissButtonHoverStyleProps?: IStyle;
     hyperlinkStyleProps?: IStyle;
-    hyperlinkHoveredStyleProps?: IStyle;
+    hyperlinkHoverStyleProps?: IStyle;
     notificationIconStyleProps?: IStyle;
+    infoGroupStyleProps?: IStyle;
 }

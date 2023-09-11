@@ -158,6 +158,7 @@ export enum TelemetryEvent {
     SetBotAuthProviderDisplayCard = "SetBotAuthProviderDisplayCard",
     SetBotAuthProviderNotFound = "SetBotAuthProviderNotFound",
     ThirdPartyCookiesBlocked = "ThirdPartyCookiesBlocked",
+    NotificationCloseChatButtonClicked = "NotificationCloseChatButtonClicked",
 
     //WebChat Middleware Events
     ProcessingHTMLTextMiddlewareFailed = "ProcessingHTMLTextMiddlewareFailed",

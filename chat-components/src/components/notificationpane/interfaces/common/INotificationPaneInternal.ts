@@ -1,7 +1,7 @@
 import { IStyle } from "@fluentui/react";
 import { ICommandButtonControlProps } from "../../../common/interfaces/ICommandButtonControlProps";
 import { IImageControlProps } from "../../../common/interfaces/IImageControlProps";
-import { IButtonCommonProps } from "./IButtonCommonProps";
+import { INotificationPaneComponentOverrides } from "./INotificationPaneComponentOverrides";
 
 /**
  * This interface will act as generic object that will have the common properties and also the properties for each scenario.
@@ -15,41 +15,52 @@ export interface INotificationPaneInternal {
     dir?: "ltr" | "rtl" | "auto";
     generalStyleProps?: IStyle;
     containerClassName?: string;
+    componentOverrides?: INotificationPaneComponentOverrides;
 
     // Title
-    showTitle?: boolean;
+    hideTitle?: boolean;
     titleText?: string;
     titleStyleProps?: IStyle;
     titleClassName?: string;
 
     // Sub Title
-    showSubtitle?: boolean;
+    hideSubtitle?: boolean;
     subtitleText?: string;
     subtitleStyleProps?: IStyle;
     subtitleClassName?: string;
 
     // Hyper link
-    showHyperlink?: boolean;
+    hideHyperlink?: boolean;
     hyperlinkText?: string;
     hyperlinkAriaLabel?: string;
+    hyperlinkHref?: string;
     hyperlinkStyleProps?: IStyle;
-    hyperlinkHoveredStyleProps?: IStyle;
+    hyperlinkHoverStyleProps?: IStyle;
     hyperlinkClassName?: string;
 
     // Notification Icon
+    hideNotificationIcon?: boolean;
     notificationIconProps?: IImageControlProps;
     notificationIconStyleProps?: IStyle;
     notificationIconClassName?: string;
 
     // Dismiss button "X"
-    showDismissButton?: boolean;
+    hideDismissButton?: boolean;
     dismissButtonProps?: ICommandButtonControlProps;
     dismissButtonStyleProps?: IStyle;
-    dismissButtonHoveredStyleProps?: IStyle;
+    dismissButtonHoverStyleProps?: IStyle;
+    dismissButtonClassName?: string;
 
     // Define properties for - Chat disconnect scenario.
-    showCloseChatButton?: boolean;
-    closeChatButtonProps?: IButtonCommonProps
+    hideCloseChatButton?: boolean;
+    // closeChatButtonProps?: IButtonCommonProps
+    closeChatButtonProps?: ICommandButtonControlProps;
+    closeChatButtonStyleProps?: IStyle;
+    closeChatButtonHoverStyleProps?: IStyle;
+    closeChatButtonClassName?: string;
+
+    infoGroupStyleProps?: IStyle;
+    buttonGroupStyleProps?: IStyle;
 
     // Define properties for - Start Chat scenario.
     // .....Continue adding properties for other notification scenarios

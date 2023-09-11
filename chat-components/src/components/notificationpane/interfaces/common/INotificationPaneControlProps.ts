@@ -4,22 +4,26 @@ import { IImageControlProps } from "../../../common/interfaces/IImageControlProp
 /**
  * This interface will have the common control properties and is inherited by each scenarios.
  */
-export interface INotificationControlProps {
+export interface INotificationPaneControlProps {
     id?: string;
     dir?: "ltr" | "rtl" | "auto";
 
-    showTitle?: boolean;
+    hideNotificationPane?: boolean;
+
+    hideTitle?: boolean;
     titleText?: string;
 
-    showSubtitle?: boolean;
+    hideSubtitle?: boolean;
     subtitleText?: string;
 
-    showDismissButton?: boolean;
+    hideDismissButton?: boolean;
     dismissButtonProps?: ICommandButtonControlProps;
 
-    showHyperlink?: boolean;
+    hideHyperlink?: boolean;
     hyperlinkText?: string;
     hyperlinkAriaLabel?: string;
+    hyperlinkHref?: string;
 
+    hideIcon?: boolean;
     notificationIconProps?: IImageControlProps;
 }

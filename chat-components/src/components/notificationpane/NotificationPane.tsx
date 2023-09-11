@@ -1,16 +1,55 @@
-import { DefaultButton, ILabelStyles, Label, Stack, Link } from "@fluentui/react";
-
 import React from "react";
-// import { INotificationPaneProps } from "./interfaces/INotificationPaneProps";
+import { ILabelStyles, Image, Label, Stack, Link, IStackStyles, IImageStyles, ILinkStyles, DefaultButton, IButtonStyles } from "@fluentui/react";
 import { INotificationPaneInternal } from "./interfaces/common/INotificationPaneInternal";
+import DismissButton from "./subcomponents/DismissButton";
+import CloseChatButton from "./subcomponents/CloseChatButton";
+import { decodeComponentString } from "../../common/decodeComponentString";
 
-// function NotificationBanner(props: INotificationPaneProps) {
 function NotificationPane(props: INotificationPaneInternal) {
-    // const titleStyles: ILabelStyles = {
-    //     root: Object.assign({}, props.chatDisconnectNotificationProps?.styleProps?.titleStyleProps)
-    // };
+    const elementId = props.id ?? "lcw-notification-pane";
+
+    const containerStyles: IStackStyles = {
+        root: Object.assign({}, props.generalStyleProps)
+    }; // TODO see if object.assign can be avoided here!
+
     const titleStyles: ILabelStyles = {
         root: Object.assign({}, props.titleStyleProps)
+    };
+
+    const subtitleStyles: ILabelStyles = {
+        root: Object.assign({}, props.subtitleStyleProps)
+    };
+
+    const hyperlinkStyles: ILinkStyles = {
+        root: Object.assign({}, props.hyperlinkStyleProps)
+    };
+    const hyperlinkHoverStyles: ILinkStyles = {
+        root: Object.assign({}, props.hyperlinkHoverStyleProps)
+    };
+
+    const notificationIconProps = Object.assign({}, props.notificationIconProps);
+    const notificationIconStyles = Object.assign({}, props.notificationIconStyleProps);
+    const notificationIconImageStyles: IImageStyles = { root: {}, image: notificationIconStyles };
+
+    const dismissButtonProps = Object.assign({}, props.dismissButtonProps);
+    const dismissButtonStyles = Object.assign({}, props.dismissButtonStyleProps);
+    const dismissButtonHoverStyles = Object.assign({}, props.dismissButtonHoverStyleProps);
+
+    const closeChatButtonProps = Object.assign({}, props.closeChatButtonProps);
+    const closeChatButtonStyles = Object.assign({}, props.closeChatButtonStyleProps); // TODO -> closeChat is IButton vs ICommandButton???
+    const closeChatButtonHoverStyles = Object.assign({}, props.closeChatButtonHoverStyleProps);
+
+    const closeChatButtonStyles2: IButtonStyles = {
+        root: Object.assign({}, props.closeChatButtonStyleProps),
+        rootHovered: Object.assign({}, props.closeChatButtonHoverStyleProps)
+    };
+
+    const infoGroupStyles: IStackStyles = {
+        root: Object.assign({}, props.infoGroupStyleProps)
+    };
+
+    const buttonGroupStyles: IStackStyles = {
+        root: Object.assign({}, props.buttonGroupStyleProps)
     };
 
     // const NotificationIcon = (level: string) => { // TODO: this will need to go under subcomponents (similar to header with minimize button)
@@ -35,43 +74,178 @@ function NotificationPane(props: INotificationPaneInternal) {
 
     return (
         <>
-            <Stack
-                id={"nb-container-id"}
+            <Stack className={props.containerClassName}
+                // horizontalAlign="space-between"
+                styles={containerStyles}
+                id={elementId}
+                dir={props.dir ?? "ltr"}
                 tabIndex={-1}
-                // styles={containerStyles}
-                role={"presentation"}
-                dir={"ltr"}>
-                <Label
-                    className={"nb-title"}
-                    styles={titleStyles}
-                    tabIndex={-1}
-                    id={"nb-title-id"}>
-                    {"Sample notification title"}
-                    {props.titleText}
-                </Label>
-                <DefaultButton
-                    className={"nb-close-button"}
-                    // styles={dismissButtonStyles}
-                    // text={"CLOSE"}
-                    text={props.dismissButtonProps?.text}
-                    // onClick={props.chatDisconnectNotificationProps?.controlProps?.dismissButtonProps?.onClick}
-                    onClick={props.dismissButtonProps?.onClick}
-                    id={"nb-close-button-id"}
-                    // ariaLabel={props.controlProps?.cancelButtonAriaLabel || defaultConfirmationPaneControlProps.cancelButtonAriaLabel}
-                />
-                {props.showStartChatButton && <DefaultButton
-                    className={"nb-start-chat-button"}
-                    // styles={dismissButtonStyles}
-                    // text={"CLOSE"}
-                    text={props.startChatButtonProps?.buttonText}
-                    // onClick={props.chatDisconnectNotificationProps?.controlProps?.dismissButtonProps?.onClick}
-                    onClick={props.startChatButtonProps?.onClick}
-                    id={"nb-start-chat-button-id"}
-                    // ariaLabel={props.controlProps?.cancelButtonAriaLabel || defaultConfirmationPaneControlProps.cancelButtonAriaLabel}
-                />}
+                role={"presentation"}>
+                
+                <Stack horizontal
+                    // horizontalAlign="space-between"
+                    // verticalAlign="start"
+                    styles={containerStyles}
+                    dir={props.dir ?? "ltr"}>
+                    {!props.hideNotificationIcon && (decodeComponentString(props.componentOverrides?.notificationIcon) || <Image
+                        className={notificationIconProps.className}
+                        id={notificationIconProps.id}
+                        src={notificationIconProps.src}
+                        alt={notificationIconProps.alt}
+                        tabIndex={-1}
+                        styles={notificationIconImageStyles}
+                    />)}
+
+                    <Stack 
+                        // verticalAlign="space-between" // TODO add + add own stack stylings to add space between top and bottom?
+                        styles={infoGroupStyles}
+                        dir={props.dir ?? "ltr"}>
+                        {!props.hideTitle && (decodeComponentString(props.componentOverrides?.title) || <Label
+                            className={props.titleClassName ?? "nb-title"}
+                            styles={titleStyles}
+                            tabIndex={-1}
+                            id={elementId + "-title"}>
+                            {props.titleText ?? "Sample notification title"}
+                        </Label>)}
+                        {!props.hideSubtitle && (decodeComponentString(props.componentOverrides?.subtitle) || <Label
+                            className={props.subtitleClassName ?? "nb-subtitle"}
+                            styles={subtitleStyles}
+                            tabIndex={-1}
+                            id={elementId + "-subtitle"}>
+                            {props.subtitleText ?? "Sample notification subtitle"}
+                        </Label>)}
+                        {!props.hideHyperlink && (decodeComponentString(props.componentOverrides?.hyperlink) || <Link
+                            className={props.hyperlinkClassName}
+                            ariaLabel={props.hyperlinkAriaLabel}
+                            styles={hyperlinkStyles}
+                            hoverStyles={hyperlinkHoverStyles}
+                            target={"_blank"}
+                            rel={"noopener noreferrer"}
+                            href={props.hyperlinkHref}>
+                            {props.hyperlinkText}
+                        </Link>)}
+                    </Stack>
+
+                    {!props.hideDismissButton && (decodeComponentString(props.componentOverrides?.dismissButton) || <DismissButton
+                        {...dismissButtonProps}
+                        className={props.dismissButtonClassName}
+                        onClick={props.dismissButtonProps?.onClick}
+                        styles={dismissButtonStyles}
+                        hoverStyles={dismissButtonHoverStyles}
+                    />)}
+                </Stack>
+                
+                <Stack horizontal
+                    // horizontalAlign="space-between"
+                    // verticalAlign="start"
+                    styles={buttonGroupStyles}
+                    dir={props.dir ?? "ltr"}>
+                    {!props.hideCloseChatButton && <CloseChatButton
+                        {...closeChatButtonProps}
+                        className={props.closeChatButtonClassName}
+                        onClick={props.closeChatButtonProps?.onClick}
+                        styles={closeChatButtonStyles}
+                        hoverStyles={closeChatButtonHoverStyles}
+                    />}
+                </Stack>
+
+                <Stack horizontal
+                    // horizontalAlign="space-between"
+                    // verticalAlign="start"
+                    styles={buttonGroupStyles}
+                    dir={props.dir ?? "ltr"}>
+                    {!props.hideCloseChatButton && <DefaultButton
+                        className={props.closeChatButtonClassName}
+                        text={props.closeChatButtonProps?.text}
+                        ariaLabel={props.closeChatButtonProps?.ariaLabel}
+                        onClick={props.closeChatButtonProps?.onClick}
+                        id={"nb-start-chat-button-id"}
+                        styles={closeChatButtonStyles2}
+                    />}
+                </Stack>
+                
             </Stack>
         </>
     );
+
+    // return (
+    //     <>
+    //         <Stack
+    //             id={elementId}
+    //             tabIndex={-1}
+    //             styles={containerStyles}
+    //             className={props.containerClassName}
+    //             role={"presentation"}
+    //             dir={props.dir ?? "ltr"}>
+    //             {!props.hideNotificationIcon && (decodeComponentString(props.componentOverrides?.notificationIcon) || <Image
+    //                 className={notificationIconProps.className}
+    //                 id={notificationIconProps.id}
+    //                 src={notificationIconProps.src}
+    //                 alt={notificationIconProps.alt}
+    //                 tabIndex={-1}
+    //                 styles={notificationIconImageStyles}
+    //             />)}
+    //             {!props.hideTitle && (decodeComponentString(props.componentOverrides?.title) || <Label
+    //                 className={props.titleClassName ?? "nb-title"}
+    //                 styles={titleStyles}
+    //                 tabIndex={-1}
+    //                 id={elementId + "-title"}>
+    //                 {props.titleText ?? "Sample notification title"}
+    //             </Label>)}
+    //             {!props.hideSubtitle && (decodeComponentString(props.componentOverrides?.subtitle) || <Label
+    //                 className={props.subtitleClassName ?? "nb-subtitle"}
+    //                 styles={subtitleStyles}
+    //                 tabIndex={-1}
+    //                 id={elementId + "-subtitle"}>
+    //                 {props.subtitleText ?? "Sample notification subtitle"}
+    //             </Label>)}
+    //             {!props.hideHyperlink && (decodeComponentString(props.componentOverrides?.hyperlink) || <Link
+    //                 className={props.hyperlinkClassName}
+    //                 ariaLabel={props.hyperlinkAriaLabel}
+    //                 styles={hyperlinkStyles}
+    //                 hoverStyles={hyperlinkHoverStyles}
+    //                 target={"_blank"}
+    //                 rel={"noopener noreferrer"}
+    //                 href={props.hyperlinkHref}>
+    //                 {props.hyperlinkText}
+    //             </Link>)}
+    //             {!props.hideDismissButton && (decodeComponentString(props.componentOverrides?.dismissButton) || <DismissButton
+    //                 {...dismissButtonProps}
+    //                 className={props.dismissButtonClassName}
+    //                 onClick={props.dismissButtonProps?.onClick}
+    //                 styles={dismissButtonStyles}
+    //                 hoverStyles={dismissButtonHoverStyles}
+    //             />)}
+    //             {/* {!props.hideDismissButton && <DefaultButton
+    //                 className={"nb-close-button"}
+    //                 // styles={dismissButtonStyles}
+    //                 // text={"CLOSE"}
+    //                 text={props.dismissButtonProps?.text}
+    //                 // onClick={props.chatDisconnectNotificationProps?.controlProps?.dismissButtonProps?.onClick}
+    //                 onClick={props.dismissButtonProps?.onClick}
+    //                 id={"nb-close-button-id"}
+    //                 // ariaLabel={props.controlProps?.cancelButtonAriaLabel || defaultConfirmationPaneControlProps.cancelButtonAriaLabel}
+    //             />} */}
+    //             {!props.hideCloseChatButton && <CloseChatButton
+    //                 {...closeChatButtonProps}
+    //                 className={props.closeChatButtonClassName}
+    //                 onClick={props.closeChatButtonProps?.onClick}
+    //                 styles={closeChatButtonStyles}
+    //                 hoverStyles={closeChatButtonHoverStyles}
+    //             />}
+    //             {/* {!props.hideCloseChatButton && <DefaultButton
+    //                 className={"nb-start-chat-button"}
+    //                 // styles={dismissButtonStyles}
+    //                 // text={"CLOSE"}
+    //                 text={props.closeChatButtonProps?.text}
+    //                 // onClick={props.chatDisconnectNotificationProps?.controlProps?.dismissButtonProps?.onClick}
+    //                 onClick={props.closeChatButtonProps?.onClick}
+    //                 id={"nb-start-chat-button-id"}
+    //                 // ariaLabel={props.controlProps?.cancelButtonAriaLabel || defaultConfirmationPaneControlProps.cancelButtonAriaLabel}
+    //             />} */}
+    //         </Stack>
+    //     </>
+    // );
 }
 
 export default NotificationPane;

@@ -5,6 +5,7 @@ export interface INotificationPaneClassNames {
     containerClassName?: string;
     titleClassName?: string;
     subtitleClassName?: string;
+    dismissButtonClassName?: string;
     hyperlinkClassName?: string;
     notificationIconClassName?: string;
 }

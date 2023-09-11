@@ -1,12 +1,14 @@
-import { INotificationControlProps } from "../common/INotificationControlProps";
+import { ICommandButtonControlProps } from "../../../common/interfaces/ICommandButtonControlProps";
+import { INotificationPaneControlProps } from "../common/INotificationPaneControlProps";
 
 /**
  * This interface will have all the properties as customized by C1 for chat disconnect scenario
- * It extends the common properties <INotificationControlProps>
+ * It extends the common properties <INotificationPaneControlProps>
  */
-export interface IChatDisconnectControlProps extends INotificationControlProps {
+export interface IChatDisconnectControlProps extends INotificationPaneControlProps {
     // Add properties specific to Chat disconnect scenario
-    showCloseChatButton?: boolean;
-    closeChatButtonText?: string;
-    closeChatButtonAriaLabel?: string;
+    hideCloseChatButton?: boolean;
+    // closeChatButtonText?: string;
+    // closeChatButtonAriaLabel?: string;
+    closeChatButtonProps?: ICommandButtonControlProps;
 }

@@ -1,27 +1,23 @@
 import React from "react";
-
-// import { hooks } from "botframework-webchat";
-// import { useCallback } from "react";
 import { NotificationScenarios } from "../../enums/NotificationScenarios";
-// import { NotificationLevel } from "../../enums/NotificationLevel";
-import NotificationBannerStateful from "../../../../notificationbannerstateful/NotificationBannerStateful";
-import { INotificationBannerProps } from "@microsoft/omnichannel-chat-components/lib/types/components/notificationbanner/interfaces/INotificationBannerProps";
+import { INotificationPaneProps } from "@microsoft/omnichannel-chat-components/lib/types/components/notificationpane/interfaces/INotificationPaneProps";
+import NotificationPaneStateful from "../../../../notificationpanestateful/NotificationPaneStateful";
+// import { INotificationBannerProps } from "@microsoft/omnichannel-chat-components/lib/types/components/notificationbanner/interfaces/INotificationBannerProps";
 
-const createToastMiddleware = (notificationBannerProps: INotificationBannerProps | undefined) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const createToastMiddleware = (notificationPaneProps: INotificationPaneProps | undefined, endChat: any) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, react/display-name
     const toastMiddleware = () => (next: any) => (card: any) => {
         console.log("ADAD toastMiddleware");
         const {notification} = card;
         console.log(notification);
 
-        if (notification.id === NotificationScenarios.AttachmentError) {
-            // return <CustomAttachmentNotification/>;
-            return <NotificationBannerStateful notificationBannerProps={notificationBannerProps} notificationScenarioType={NotificationScenarios.AttachmentError} />;
-        }
+        // if (notification.id === NotificationScenarios.AttachmentError) {
+        //     return <NotificationBannerStateful notificationBannerProps={notificationBannerProps} notificationScenarioType={NotificationScenarios.AttachmentError} />;
+        // }
 
         if (notification.id === NotificationScenarios.ChatDisconnect) {
-            // return <CustomChatDisconnectNotification/>;
-            return <NotificationBannerStateful notificationBannerProps={notificationBannerProps} notificationScenarioType={NotificationScenarios.ChatDisconnect} />;
+            return <NotificationPaneStateful notificationPaneProps={notificationPaneProps} notificationScenarioType={NotificationScenarios.ChatDisconnect} endChat={endChat} />;
         }
         
         // additional scenarios to be added...
